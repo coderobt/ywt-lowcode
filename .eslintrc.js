@@ -5,31 +5,33 @@ module.exports = {
     node: true, // 解决 'module' is not defined报错。
   },
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended", //新增
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended', //新增
   ],
   overrides: [
     {
       env: {
         node: true,
       },
-      files: [".eslintrc.{js,cjs}"],
+      files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: "script",
+        sourceType: 'script',
       },
     },
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ['@typescript-eslint', 'react'],
   rules: {
-    "@typescript-eslint/no-explicit-any": ["off"],
-    "prefer-const": "off",
-    "prettier/prettier": ["error", { endOfLine: "auto" }],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    'prefer-const': 'off',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    'no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': ['warn'],
   },
-};
+}
