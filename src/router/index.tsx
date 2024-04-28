@@ -72,3 +72,10 @@ const router = createBrowserRouter([
 ])
 
 export default router
+
+// ---------- 分割线 ----------
+// 常用的路由，常量 ， 万一以后修改了路由只需要此处变动就行
+export const HOME_PATHNAME = '/'
+export const LOGIN_PATHNAME = '/login'
+export const REGISTER_PATHNAME = '/register'
+export const MANAGE_INDEX_PATHNAME = '/manage/list'
