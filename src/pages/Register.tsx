@@ -9,6 +9,7 @@ const { Title } = Typography
 
 const Register: FC = () => {
   const onFinish = (values: any) => {
+    //在表单中如果有错误onFinish不会执行,只有当所有的rules都通过了才会执行
     console.log(values)
   }
   return (
@@ -23,13 +24,41 @@ const Register: FC = () => {
       </div>
       <div>
         <Form onFinish={onFinish} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
-          <Form.Item label="用户名" name="username">
+          <Form.Item
+            label="用户名"
+            name="username"
+            rules={[
+              { required: true, message: '请输入用户名' },
+              { type: 'string', min: 5, max: 20, message: '字符长度在5-20之间' },
+              { pattern: /^\w+$/, message: '只能是字母数字下划线' },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="密码" name="password">
+          <Form.Item
+            label="密码"
+            name="password"
+            rules={[{ required: true, message: '请输入密码' }]}
+          >
             <Input.Password />
           </Form.Item>
-          <Form.Item label="确认密码" name="confirm">
+          <Form.Item
+            label="确认密码"
+            name="confirm"
+            dependencies={['password']} // 依赖password字段,password发生变化会触发validator
+            rules={[
+              { required: true, message: '请输入密码' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve()
+                  } else {
+                    return Promise.reject(new Error('两次密码不一致'))
+                  }
+                },
+              }),
+            ]}
+          >
             <Input.Password />
           </Form.Item>
           <Form.Item label="昵称" name="nickname">
