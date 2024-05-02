@@ -7,15 +7,12 @@ import styles from './Home.module.scss'
 const { Title, Paragraph } = Typography
 
 const Home: FC = () => {
-  // const navigate = useNavigate()
-  // function clickHandler() {
-  //   // navigate('/login')
-  //   navigate({
-  //     pathname: '/login',
-  //     search: 'b=20',
-  //   })
-  // }
   const nav = useNavigate()
+  // useEffect(() => {
+  //   fetch('api/test')
+  //     .then(res => res.json())
+  //     .then(data => console.log('fetch data', data))
+  // }, [])
   return (
     <div className={styles.container}>
       <div className={styles.info}>

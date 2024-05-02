@@ -1,16 +1,34 @@
 import React, { FC } from 'react'
-import { Typography, Space, Form, Input, Button } from 'antd'
+import { Typography, Space, Form, Input, Button, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Register.module.scss'
 import { LOGIN_PATHNAME } from '@/router/index'
+import { registerService } from '@/services/user'
+import { useRequest } from 'ahooks'
 
 const { Title } = Typography
 
 const Register: FC = () => {
+  const nav = useNavigate()
+
+  const { run } = useRequest(
+    async values => {
+      const { username, password, nickname } = values
+      await registerService(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('注册成功')
+        nav(LOGIN_PATHNAME)
+      },
+    },
+  )
+
   const onFinish = (values: any) => {
     //在表单中如果有错误onFinish不会执行,只有当所有的rules都通过了才会执行
-    console.log(values)
+    run(values)
   }
   return (
     <div className={styles.container}>

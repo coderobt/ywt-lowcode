@@ -2,7 +2,10 @@
   "cSpell.words": [
     "ahooks",
     "antd",
+    "craco",
     "immer",
-    "Popconfirm"
+    "mockjs",
+    "Popconfirm",
+    "reduxjs"
   ]
 }
