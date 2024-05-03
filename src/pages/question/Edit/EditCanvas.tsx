@@ -1,10 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, MouseEvent } from 'react'
 import styles from './EditCanvas.module.scss'
 import { Spin } from 'antd'
 import useGetComponentInfo from '@/hooks/useGetComponentInfo'
 import { getComponentConfByType } from '@/components/QuestionComponents/index'
-import { ComponentInfoType } from '@/store/componentsReducer'
+import { ComponentInfoType, changeSelectedId } from '@/store/componentsReducer'
 import { ComponentConfigType } from '@/components/QuestionComponents/index'
+import { useDispatch } from 'react-redux'
+import classNames from 'classnames'
 
 //临时静态展示title 和 input 的效果
 // import QuestionTitle from '@/components/QuestionComponents/QuestionTitle/Component'
@@ -25,7 +27,13 @@ function genComponent(componentInfo: ComponentInfoType) {
 }
 
 const EditCanvas: FC<PropsType> = ({ loading }) => {
-  const { componentList } = useGetComponentInfo()
+  const { componentList, selectedId } = useGetComponentInfo()
+  const dispatch = useDispatch()
+
+  function handleClick(id: string, event: MouseEvent) {
+    event.stopPropagation() // 阻止冒泡
+    dispatch(changeSelectedId(id))
+  }
 
   if (loading) {
     return (
@@ -39,8 +47,17 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
     <div className={styles.canvas}>
       {componentList.map(c => {
         const { fe_id } = c
+
+        // 拼接 class name
+        const wrapperDefaultClassName = styles['component-wrapper']
+        const selectedClassName = styles.selected
+        const wrapperClassName = classNames({
+          [wrapperDefaultClassName]: true,
+          [selectedClassName]: fe_id === selectedId,
+        })
+
         return (
-          <div key={fe_id} className={styles['component-wrapper']}>
+          <div key={fe_id} className={wrapperClassName} onClick={e => handleClick(fe_id, e)}>
             <div className={styles.component}>{genComponent(c)}</div>
           </div>
         )
