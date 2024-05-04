@@ -7,7 +7,9 @@ function useGetComponentInfo() {
 
   const { componentList = [], selectedId } = components
 
-  return { componentList, selectedId }
+  const selectedComponent = componentList.find(item => item.fe_id === selectedId)
+
+  return { componentList, selectedId, selectedComponent }
 }
 
 export default useGetComponentInfo

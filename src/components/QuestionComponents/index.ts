@@ -10,11 +10,26 @@ export type ComponentConfigType = {
   title: string
   type: string
   Component: FC<ComponentPropsType>
+  PropComponent: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
 }
 
 // 全部的组件配置的列表
 const componentConfigList: ComponentConfigType[] = [QuestionInputConfig, QuestionTitleConfig]
+
+// 组件分组
+export const componentConfGroup = [
+  {
+    groupId: 'text',
+    groupName: '文本显示',
+    components: [QuestionTitleConfig],
+  },
+  {
+    groupId: 'input',
+    groupName: '用户输入',
+    components: [QuestionInputConfig],
+  },
+]
 
 export function getComponentConfByType(type: string) {
   return componentConfigList.find(item => item.type === type)

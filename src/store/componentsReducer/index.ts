@@ -4,7 +4,7 @@ import { ComponentPropsType } from '@/components/QuestionComponents'
 import { produce } from 'immer'
 
 export type ComponentInfoType = {
-  fe_id: string //TODO 后面解释
+  fe_id: string // 此处fe_id 因为前端生成的id ,服务端Mongodb不认这种格式，所以自定义fe_id
   type: string //组件类型
   title: string //组件标题
   props: ComponentPropsType //组件属性
@@ -34,9 +34,45 @@ export const componentsSlice = createSlice({
     changeSelectedId: produce((draft: ComponentsStateType, action: PayloadAction<string>) => {
       draft.selectedId = action.payload
     }),
+
+    // 添加新组件
+    addComponent: produce(
+      (draft: ComponentsStateType, action: PayloadAction<ComponentInfoType>) => {
+        const newComponent = action.payload
+
+        const { selectedId, componentList } = draft
+        const index = componentList.findIndex(item => item.fe_id === selectedId)
+
+        // 选中了组件，插入到 index 后面
+        if (index !== -1) {
+          componentList.splice(index + 1, 0, newComponent)
+        } else {
+          //未选中任何组件，直接添加到最后
+          componentList.push(newComponent)
+        }
+
+        draft.selectedId = newComponent.fe_id
+      },
+    ),
+
+    // 修改组件属性
+    changeComponentProps: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ fe_id: string; newProps: ComponentPropsType }>,
+      ) => {
+        const { fe_id, newProps } = action.payload
+        // 当前要修改属性的组件
+        const curComp = draft.componentList.find(item => item.fe_id === fe_id)
+        if (curComp) {
+          curComp.props = { ...curComp.props, ...newProps }
+        }
+      },
+    ),
   },
 })
 
-export const { resetComponents, changeSelectedId } = componentsSlice.actions
+export const { resetComponents, changeComponentProps, changeSelectedId, addComponent } =
+  componentsSlice.actions
 
 export default componentsSlice.reducer

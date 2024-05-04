@@ -1,5 +1,5 @@
 import React, { FC, MouseEvent } from 'react'
-import styles from './EditCanvas.module.scss'
+import styles from './index.module.scss'
 import { Spin } from 'antd'
 import useGetComponentInfo from '@/hooks/useGetComponentInfo'
 import { getComponentConfByType } from '@/components/QuestionComponents/index'
