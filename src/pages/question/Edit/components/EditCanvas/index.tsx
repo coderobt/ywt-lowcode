@@ -7,6 +7,7 @@ import { ComponentInfoType, changeSelectedId } from '@/store/componentsReducer'
 import { ComponentConfigType } from '@/components/QuestionComponents/index'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
+import useBindCanvasKeyPress from '@/hooks/useBindCanvasKeyPress'
 
 //临时静态展示title 和 input 的效果
 // import QuestionTitle from '@/components/QuestionComponents/QuestionTitle/Component'
@@ -30,10 +31,14 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
   const { componentList, selectedId } = useGetComponentInfo()
   const dispatch = useDispatch()
 
+  // 点击组件，选中
   function handleClick(id: string, event: MouseEvent) {
     event.stopPropagation() // 阻止冒泡
     dispatch(changeSelectedId(id))
   }
+
+  //绑定快捷键
+  useBindCanvasKeyPress()
 
   if (loading) {
     return (
