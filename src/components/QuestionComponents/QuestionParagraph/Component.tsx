@@ -9,6 +9,7 @@ const Component: FC<QuestionParagraphPropsType> = (props: QuestionParagraphProps
 
   //paragraph 换行功能实现
   // 尽量不要使用 dangerouslySetInnerHTML 不安全
+  // 文本的换行将文本转化成数组遍历输出比较安全
   const textList = text.split('\n')
 
   return (
