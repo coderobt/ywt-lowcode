@@ -1,17 +1,25 @@
 import React, { FC } from 'react'
 import { Space, Button, Tooltip } from 'antd'
-import { DeleteOutlined, EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
+import {
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  BlockOutlined,
+  CopyOutlined,
+  LockOutlined,
+} from '@ant-design/icons'
 import {
   removeSelectedComponent,
   changeComponentHidden,
   toggleComponentLock,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } from '@/store/componentsReducer'
 import { useDispatch } from 'react-redux'
 import useGetComponentInfo from '@/hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
   const dispatch = useDispatch()
-  const { selectedId, selectedComponent } = useGetComponentInfo()
+  const { selectedId, selectedComponent, copiedComponent } = useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
 
   //删除组件
@@ -29,6 +37,16 @@ const EditToolbar: FC = () => {
     dispatch(toggleComponentLock({ fe_id: selectedId }))
   }
 
+  //复制组件
+  function copy() {
+    dispatch(copySelectedComponent())
+  }
+
+  //粘贴组件
+  function paste() {
+    dispatch(pasteCopiedComponent())
+  }
+
   return (
     <Space>
       <Tooltip title="删除">
@@ -43,6 +61,17 @@ const EditToolbar: FC = () => {
           onClick={handleLock}
           shape="circle"
           icon={<LockOutlined />}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="复制">
+        <Button onClick={copy} shape="circle" icon={<CopyOutlined />}></Button>
+      </Tooltip>
+      <Tooltip title="粘贴">
+        <Button
+          disabled={copiedComponent == null}
+          onClick={paste}
+          shape="circle"
+          icon={<BlockOutlined />}
         ></Button>
       </Tooltip>
     </Space>
