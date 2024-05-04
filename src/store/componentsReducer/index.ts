@@ -8,6 +8,7 @@ export type ComponentInfoType = {
   fe_id: string // 此处fe_id 因为前端生成的id ,服务端Mongodb不认这种格式，所以自定义fe_id
   type: string //组件类型
   title: string //组件标题
+  isHidden?: boolean //是否隐藏
   props: ComponentPropsType //组件属性
 }
 
@@ -82,6 +83,30 @@ export const componentsSlice = createSlice({
       const index = componentList.findIndex(item => item.fe_id === removeId)
       componentList.splice(index, 1)
     }),
+
+    //隐藏/显示 组件
+    changeComponentHidden: produce(
+      (draft: ComponentsStateType, action: PayloadAction<{ fe_id: string; isHidden: boolean }>) => {
+        const { componentList } = draft
+        const { fe_id, isHidden } = action.payload
+
+        // 重新计算selectedId
+        let newSelectedId = ''
+        if (isHidden) {
+          //要隐藏
+          newSelectedId = getNextSelectedId(fe_id, componentList)
+        } else {
+          //要显示
+          newSelectedId = fe_id
+        }
+        draft.selectedId = newSelectedId
+
+        const curComp = componentList.find(item => item.fe_id === fe_id)
+        if (curComp) {
+          curComp.isHidden = isHidden
+        }
+      },
+    ),
   },
 })
 
@@ -91,6 +116,7 @@ export const {
   changeComponentProps,
   changeSelectedId,
   addComponent,
+  changeComponentHidden,
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
