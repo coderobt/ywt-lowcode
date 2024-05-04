@@ -18,6 +18,11 @@
   border-color: #1890ff !important; //使其优先级最高
 }
 
+.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .component {
   pointer-events: none;//屏蔽鼠标行为，组件不让被点击到
 }

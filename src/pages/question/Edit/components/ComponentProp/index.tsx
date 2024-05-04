@@ -16,7 +16,7 @@ const ComponentProp: FC = () => {
   if (selectedComponent == null) return <NoProp />
 
   //根据当前选中组件的type获取组件配置
-  const { type, props } = selectedComponent
+  const { type, props, isLocked, isHidden } = selectedComponent
   const componentConf = getComponentConfByType(type)
   if (componentConf == null) return <NoProp />
 
@@ -28,7 +28,7 @@ const ComponentProp: FC = () => {
     dispatch(changeComponentProps({ fe_id, newProps }))
   }
 
-  return <PropComponent {...props} onChange={changeProps} />
+  return <PropComponent {...props} onChange={changeProps} disabled={isLocked || isHidden} />
 }
 
 export default ComponentProp
