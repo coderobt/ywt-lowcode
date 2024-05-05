@@ -2,9 +2,15 @@ import React, { FC, useState, ChangeEvent } from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import useGetComponentInfo from '@/hooks/useGetComponentInfo'
-import { changeSelectedId, changeComponentTitle } from '@/store/componentsReducer'
+import {
+  changeSelectedId,
+  changeComponentTitle,
+  changeComponentHidden,
+  toggleComponentLock,
+} from '@/store/componentsReducer'
 import styles from './index.module.scss'
-import { message, Input } from 'antd'
+import { message, Input, Button, Space } from 'antd'
+import { EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
 
 const Layers: FC = () => {
   const { componentList, selectedId } = useGetComponentInfo()
@@ -40,6 +46,16 @@ const Layers: FC = () => {
     dispatch(changeComponentTitle({ fe_id: selectedId, title: newTitle }))
   }
 
+  // 切换 隐藏/显示
+  function changeHidden(fe_id: string, isHidden: boolean) {
+    dispatch(changeComponentHidden({ fe_id, isHidden }))
+  }
+
+  // 切换 锁定/解锁
+  function changeLocked(fe_id: string) {
+    dispatch(toggleComponentLock({ fe_id }))
+  }
+
   return (
     <>
       {componentList.map(c => {
@@ -66,7 +82,26 @@ const Layers: FC = () => {
               )}
               {fe_id !== changeTitleId && title}
             </div>
-            <div className={styles.handler}>按钮</div>
+            <div className={styles.handler}>
+              <Space>
+                <Button
+                  onClick={() => changeHidden(fe_id, !isHidden)}
+                  size="small"
+                  shape="circle"
+                  className={!isHidden ? styles.btn : ''}
+                  type={isHidden ? 'primary' : 'text'}
+                  icon={<EyeInvisibleOutlined />}
+                ></Button>
+                <Button
+                  onClick={() => changeLocked(fe_id)}
+                  size="small"
+                  shape="circle"
+                  className={!isLocked ? styles.btn : ''}
+                  type={isLocked ? 'primary' : 'text'}
+                  icon={<LockOutlined />}
+                ></Button>
+              </Space>
+            </div>
           </div>
         )
       })}
