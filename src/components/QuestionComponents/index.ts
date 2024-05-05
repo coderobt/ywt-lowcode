@@ -52,7 +52,7 @@ export const componentConfGroup = [
   {
     groupId: 'chooseGroup',
     groupName: '用户选择',
-    components: [QuestionRadioConfig, QuestionCheckboxConfig],
+    components: [QuestionCheckboxConfig, QuestionRadioConfig],
   },
 ]
 

@@ -18,9 +18,10 @@ const Edit: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div style={{ backgroundColor: 'white', height: '40px' }}>
+      {/* <div style={{ backgroundColor: 'white', height: '40px' }}>
         <EditHeader />
-      </div>
+      </div> */}
+      <EditHeader />
       <div className={styles['content-wrapper']}>
         <div className={styles.content}>
           <div className={styles.left}>
