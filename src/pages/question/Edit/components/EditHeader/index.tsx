@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, useState, ChangeEvent, useEffect } from 'react'
 import styles from './index.module.scss'
 import { Button, Typography, Space, Input } from 'antd'
 import { LeftOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons'
@@ -9,7 +9,7 @@ import useGetComponentInfo from '@/hooks/useGetComponentInfo'
 import { useDispatch } from 'react-redux'
 import { changePageTitle } from '@/store/pageInfoReducer'
 import { updateQuestionService } from '@/services/question'
-import { useRequest, useKeyPress } from 'ahooks'
+import { useRequest, useKeyPress, useDebounceEffect } from 'ahooks'
 
 const { Title } = Typography
 
@@ -74,6 +74,15 @@ const SaveButton: FC = () => {
     event.preventDefault()
     if (!loading) save()
   })
+
+  //自动保存(不是定期保存,不是定时器) 防抖 useDebounceEffect既有Effect又有防抖
+  useDebounceEffect(
+    () => {
+      save()
+    },
+    [pageInfo, componentList],
+    { wait: 1000 },
+  )
 
   return (
     //给按钮加loading 防止重复点击
