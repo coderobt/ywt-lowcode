@@ -14,7 +14,12 @@ import {
 function isActiveElementValid() {
   const activeElem = document.activeElement
 
-  if (activeElem === document.body) return true //光标没有 focus 到input等元素上
+  // 没有增加dnd-kit之前
+  // if (activeElem === document.body) return true //光标没有 focus 到input等元素上
+
+  // 增加了 dnd-kit 以后
+  if (activeElem === document.body) return true
+  if (activeElem?.matches('div[role="button"]')) return true
 
   return false
 }
