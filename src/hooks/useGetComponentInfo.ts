@@ -3,7 +3,9 @@ import { StateType } from '@/store/index'
 import { ComponentsStateType } from '@/store/componentsReducer/index'
 
 function useGetComponentInfo() {
-  const components = useSelector<StateType>(state => state.components) as ComponentsStateType
+  const components = useSelector<StateType>(
+    state => state.components.present,
+  ) as ComponentsStateType
 
   const { componentList = [], selectedId, copiedComponent } = components
 
