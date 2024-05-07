@@ -9,6 +9,7 @@
     "immer",
     "mockjs",
     "Popconfirm",
+    "qrcode",
     "reduxjs",
     "undoable",
     "uparrow"

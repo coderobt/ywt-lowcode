@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <Edit />,
       },
       {
-        path: 'stat/:id',
+        path: 'stat/:id', //statistic 统计
         element: <Stat />,
       },
     ],
